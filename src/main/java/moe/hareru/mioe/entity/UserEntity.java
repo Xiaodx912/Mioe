@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +28,7 @@ public class UserEntity {
     private String role;
 
     @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     private byte[] avatar;
 
     @JSONField(ordinal = 5)
@@ -43,12 +45,14 @@ public class UserEntity {
     }
 
     @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     public Integer[] getWatch() {
         return watchList.toArray(Integer[]::new);
     }
 
 
     @JSONField(serialize = false)
+    @ApiModelProperty(hidden = true)
     public String getUserIdStr() {
         return getUserId().toString();
     }

@@ -2,27 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="moe.hareru.mioe.mapper.UserMapper">
     <select id="selectById" resultType="moe.hareru.mioe.entity.UserEntity">
-        SELECT * FROM user WHERE user_id = #{userId}
+        SELECT * FROM user WHERE user_id = #{userId};
     </select>
 
     <select id="selectNickLike" resultType="moe.hareru.mioe.entity.UserEntity">
         <bind name="pattern" value="'%'+nickname+'%'"/>
-        SELECT * FROM USER WHERE NICKNAME LIKE #{pattern} LIMIT 20
+        SELECT * FROM USER WHERE NICKNAME LIKE #{pattern} LIMIT 20;
     </select>
 
     <update id="updateById">
-        UPDATE USER set password=#{password}, nickname=#{nickname}, role=#{role}, watch=#{watch} where USER_ID=#{userId}
+        UPDATE USER set password=#{password}, nickname=#{nickname}, role=#{role}, watch=#{watch} where USER_ID=#{userId};
     </update>
 
     <update id="updateAvatar">
-        UPDATE USER set avatar=#{newAvatar} where USER_ID=#{userId}
+        UPDATE USER set avatar=#{newAvatar} where USER_ID=#{userId};
     </update>
 
     <insert id="insertUser">
         INSERT INTO USER (user_id, password, nickname, role)
-        VALUES (#{userId},#{password},#{nickname},#{role})
+        VALUES (#{userId},#{password},#{nickname},#{role});
         <selectKey keyColumn="user_id" resultType="long" keyProperty="userId" order="BEFORE">
-            SELECT (SELECT MAX(USER_ID) from USER)+1
+            SELECT (SELECT MAX(USER_ID) from USER)+1;
         </selectKey>
     </insert>
 </mapper>

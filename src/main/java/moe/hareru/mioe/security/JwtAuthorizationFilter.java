@@ -49,9 +49,12 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         } catch (UsernameNotFoundException e) {
             return null;
         }
-        if (!JSONWebTokenUtil.verify(token, userId, userDetails.getPassword())) {
-            return null;
-        }
+        if (userDetailsService instanceof UserDetailsServiceImpl)
+            if (!JSONWebTokenUtil.verify(token, userId, userDetails.getPassword(), ((UserDetailsServiceImpl) userDetailsService).getLastRevokeMs(userId)))
+                return null;
+        else
+            if (!JSONWebTokenUtil.verify(token, userId, userDetails.getPassword()))
+                return null;
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }

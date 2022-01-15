@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="moe.hareru.mioe.mapper.TodoMapper">
+    <select id="selectByTidCid" resultType="moe.hareru.mioe.entity.TodoEntity">
+        SELECT * FROM todo WHERE todo_id = #{todoId} AND creator_id = #{creatorId};
+    </select>
+    <select id="selectByCid" resultType="moe.hareru.mioe.entity.TodoEntity">
+        SELECT * FROM todo WHERE creator_id = #{creatorId} LIMIT #{limit} OFFSET #{offset};
+    </select>
+    <select id="findCreatorByTid" resultType="Long">
+        SELECT CREATOR_ID FROM todo WHERE TODO_ID = #{todoId};
+    </select>
+</mapper>

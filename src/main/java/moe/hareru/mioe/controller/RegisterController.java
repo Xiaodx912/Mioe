@@ -1,6 +1,10 @@
 package moe.hareru.mioe.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import moe.hareru.mioe.entity.JSONResponseEntity;
 import moe.hareru.mioe.entity.UserEntity;
 import moe.hareru.mioe.service.UserService;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(tags = "User Register")
 @RestController
 public class RegisterController {
 
@@ -21,15 +26,18 @@ public class RegisterController {
         this.userService = userService;
     }
 
-    @PostMapping("/register")
-    public JSONResponseEntity addNewUser(@RequestBody JSONObject data) {
-        if (!data.containsKey("password"))
+    @ApiOperation(value = "用户注册")
+    //@ApiOperationSupport(includeParameters = {"password","nickname"})
+    @ApiImplicitParams({
+    })
+    @PostMapping(value = "/register")
+    public JSONResponseEntity addNewUser(@RequestBody UserEntity newUser) {
+        if (newUser.getPassword()==null)
             return new JSONResponseEntity(HttpStatus.BAD_REQUEST.value(), "Parameter missing", null);
-        data.put("password", new BCryptPasswordEncoder().encode(data.getString("password")));
-        UserEntity userEntity = JSONObject.toJavaObject(data, UserEntity.class);
-        userEntity.setRole("ROLE_USER");//Default role
-        if (userService.addNewUser(userEntity))
-            return new JSONResponseEntity(HttpStatus.OK.value(), "OK", userEntity);
+        newUser.setPassword(new BCryptPasswordEncoder().encode(newUser.getPassword()));
+        newUser.setRole("ROLE_USER");//default role
+        if (userService.addNewUser(newUser))
+            return new JSONResponseEntity(HttpStatus.OK.value(), "OK", newUser);
         else
             return new JSONResponseEntity(HttpStatus.BAD_REQUEST.value(), "Register failure", null);
     }

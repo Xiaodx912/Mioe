@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class JSONWebTokenUtil {
 
-    private final static long EXPIRE_TIME = 5 * 60 * 1000;
+    private final static long EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
     public static String sign(Long userId, String secret) {
         return sign(userId, secret, EXPIRE_TIME);
@@ -31,12 +31,17 @@ public class JSONWebTokenUtil {
         }
     }
 
-    public static boolean verify(String token, Long userId, String secret) {
+    public static boolean verify(String token, Long userId, String secret){
+        return verify(token, userId, secret, 0L);
+    }
+
+    public static boolean verify(String token, Long userId, String secret, Long revokeTimeMs) {
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                     .withClaim("userid", userId)
                     .build();
             DecodedJWT jwt = verifier.verify(token);
+            assert jwt.getIssuedAt().compareTo(new Date(revokeTimeMs)) < 0;
             return true;
         } catch (Exception e) {
             return false;

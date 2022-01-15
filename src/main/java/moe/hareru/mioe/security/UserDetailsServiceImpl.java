@@ -27,4 +27,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
         return new User(userEntity.getUserIdStr(), userEntity.getPassword(), userEntity.getRoleList());
     }
+
+    public Long getLastRevokeMs(Long userId){
+        return userService.getRevokeTimeMs(userId);
+    }
 }

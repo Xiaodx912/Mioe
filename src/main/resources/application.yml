@@ -9,3 +9,4 @@ spring:
     init:
       schema-locations: classpath:db/schema-h2.sql
       data-locations: classpath:db/data-h2.sql
+

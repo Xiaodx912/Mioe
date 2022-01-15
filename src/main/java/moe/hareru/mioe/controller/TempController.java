@@ -1,5 +1,6 @@
 package moe.hareru.mioe.controller;
 
+
 import moe.hareru.mioe.entity.JSONResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +10,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.InputStream;
 
 @RestController
 public class TempController {
@@ -35,5 +40,10 @@ public class TempController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public JSONResponseEntity admin(@AuthenticationPrincipal UsernamePasswordAuthenticationToken token) {
         return new JSONResponseEntity(HttpStatus.OK.value(), "You are admin", token);
+    }
+
+    @PostMapping(value = "test",consumes = "image/jpeg")
+    public JSONResponseEntity img(@RequestBody byte[] file){
+        return new JSONResponseEntity(200,"ok",null);
     }
 }
