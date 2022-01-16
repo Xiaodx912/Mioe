@@ -34,7 +34,10 @@ public class SwaggerConfig {
                 .securitySchemes(Collections.singletonList(new ApiKey("Authorization", "JWT Bearer token", "header")))
                 .securityContexts(Collections.singletonList(SecurityContext.builder()
                         .securityReferences(Collections.singletonList(SecurityReference.builder().scopes(new AuthorizationScope[0]).reference("Authorization").build()))
-                        .forPaths(PathSelectors.regex("/api/.*"))
+                        //.forPaths(PathSelectors.regex("/api/.*"))
+                        .operationSelector(
+                                operationContext -> operationContext.requestMappingPattern().matches("/api/.*")
+                        )
                         .build()))
                 .select()
                 .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))

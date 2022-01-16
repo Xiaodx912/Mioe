@@ -29,11 +29,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/swagger-ui/")
-                .setViewName("forward:/swagger-ui/index.html");
-    }
+//    @Override
+//    public void addViewControllers(ViewControllerRegistry registry) {
+//        registry.addViewController("/swagger-ui/")
+//                .setViewName("forward:/swagger-ui/index.html");
+//    }
 
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
